@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true
+  },
+  "include": [
+    "src/**/*",
+    "test/I18nProvider.spec.js",
+    "test/helpers/LanguagePicker.locale.js",
+    "test/helpers/LanguagePicker.js",
+    "test/helpers/LabelForm.locale.js",
+    "test/helpers/LabelForm.js",
+    "test/helpers/Italic.js",
+    "test/helpers/Greeting.locale.js",
+    "test/helpers/Greeting.js",
+    "test/localization.spec.js"
+  ],
+  "exclude": ["**/node_modules"]
+}
