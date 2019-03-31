@@ -26,7 +26,7 @@ const Greeting = localise(GreetingLocale)(({ i18n, name }) => (
   <div>i18n.greeting(name, 'i', 'strong')</div>
 ));
 
-<I18nProvider defaultLocale="en" locales={['en', 'pt']}>
+<I18nProvider defaultLocale="en">
   <Greeting name="Leticia" />
 </I18nProvider>;
 ```

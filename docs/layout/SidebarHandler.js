@@ -15,6 +15,7 @@ const HandleLayout = styled.div`
   right: -16px;
   width: 32px;
   height: 32px;
+  cursor: pointer;
 
   display: flex;
   transition: transform 0.3s ease-in 1s;
