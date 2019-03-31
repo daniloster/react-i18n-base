@@ -36,7 +36,7 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
     git add package.json
     export COMMIT_VERSION_MESSAGE="[skip ci] v$NEW_VERSION"
     git commit -m $COMMIT_VERSION_MESSAGE
-    LAST_COMMIT_FOR_TAGGING="$(git log --oneline --no-merges -n 1)" | awk '{print $1}'
+    LAST_COMMIT_FOR_TAGGING="$(git log --oneline --no-merges -n 1 | awk '{print $1}')"
     git tag -a v$NEW_VERSION $LAST_COMMIT_FOR_TAGGING -m $COMMIT_VERSION_MESSAGE
 
     npm publish
