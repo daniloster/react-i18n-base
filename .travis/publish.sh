@@ -35,15 +35,12 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
     echo "BUMPING PACKAGE [$PACKAGE_NAME] TO [$NEW_VERSION]"
     echo $NEW_VERSION | ./.travis/bump_version.sh
     git add package.json
-    export COMMIT_VERSION_MESSAGE="[skip ci] v${NEW_VERSION}"
-    git commit -m $COMMIT_VERSION_MESSAGE
+    export COMMIT_VERSION_MESSAGE="[skip ci] v$NEW_VERSION"
+    git commit -m "$COMMIT_VERSION_MESSAGE"
     LAST_COMMIT_FOR_TAGGING="$(git log --oneline --no-merges -n 1 | awk '{print $1}')"
     echo "Adding tag to last commit: $LAST_COMMIT_FOR_TAGGING"
 
-    git tag -a v${NEW_VERSION} -m $COMMIT_VERSION_MESSAGE
-    export CREATE_TAG=""
-    echo "CREATING TAG: $CREATE_TAG"
-    $($CREATE_TAG)
+    git tag -a "v$NEW_VERSION" "$LAST_COMMIT_FOR_TAGGING" -m "$COMMIT_VERSION_MESSAGE"
 
     # npm publish
 
