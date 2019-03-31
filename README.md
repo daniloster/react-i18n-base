@@ -26,7 +26,7 @@ Internationalise your app, extending config or factory new internationalised com
 
 ## Getting started
 
-Internationalise your app by creating you locale file.
+Internationalise your app by creating your locale file. Use the `localise` function to convert your component to localised one and, then, wrap your app with the `I18nProvider`.
 
 ## Contributions rules
 
