@@ -7,8 +7,8 @@ const packagePath = path.resolve(currentDirProcess, 'package.json');
 const pack = JSON.parse(fs.readFileSync(packagePath).toString());
 
 const releaseBump = {};
-releaseBump.major = function _major(major, minor, patch) { return [Number(major) + 1, minor, patch].join('.') };
-releaseBump.minor = function _minor(major, minor, patch) { return [minor, Number(minor) + 1, patch].join('.') };
+releaseBump.major = function _major(major, minor, patch) { return [Number(major) + 1, 0, 0].join('.') };
+releaseBump.minor = function _minor(major, minor, patch) { return [minor, Number(minor) + 1, 0].join('.') };
 releaseBump.patch = function _patch(major, minor, patch) { return [minor, minor, Number(patch) + 1].join('.'); };
 
 function bump(releaseType) {
