@@ -7,7 +7,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
 
   if [[ "$LAST_TAG" == "" ]]; then
       export FROM_VERSION="$INITIAL_COMMIT"
-  elif
+  else
       export FROM_VERSION="$LAST_TAG"
   fi
 
