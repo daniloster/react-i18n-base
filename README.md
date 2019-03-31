@@ -12,8 +12,7 @@ Internationalise your app, extending config or factory new internationalised com
 
 ## Current core dependencies versions
 
-- node &<= 6.14.0
-- npm &<= 3.10.10
+- node: `^8.10.0 || ^9.10.0`
 - yarn (version may be check at `package.json`)
 
 ## Peer dependencies
@@ -27,6 +26,124 @@ Internationalise your app, extending config or factory new internationalised com
 ## Getting started
 
 Internationalise your app by creating your locale file. Use the `localise` function to convert your component to localised one and, then, wrap your app with the `I18nProvider`.
+
+```sh static
+npm install react-i18n-base
+```
+
+```sh static
+yarn add react-i18n-base
+```
+
+### Dev code
+
+Greeting
+
+```jsx static
+//----------------------------------------------//
+// Creating LocalisedComponent
+//----------------------------------------------//
+import { localise, decorate } from 'react-i18n-base';
+
+const Italic = ({ children }) => <i>{children}</i>;
+
+const localeGreeting = {
+  en: {
+    greeting: 'Hi Guest!',
+    message: decorate('You are <0>so</0> <1>Awesome</1>!'),
+  },
+  pt: {
+    greeting: 'Oi Convidado!',
+    message: decorate('<1>Você é</1> <0>tão</0> Fantástico!'),
+  },
+};
+
+const Greeting = localise(localeGreeting)(({ i18n }) => (
+  <div>
+    <h2>{i18n.greeting}</h2>
+    <div>{i18n.message('strong', Italic)}</div>
+  </div>
+));
+```
+
+LabelForm
+
+```jsx static
+const localeLabel = {
+  en: {
+    title: 'Creating label',
+    description: 'Description',
+    color: 'Color',
+    errorMessage: decorate('<0>Error</0>: label has not been created successfully.'),
+    successMessage: decorate('<0>Success</0>: label has been created successfully!'),
+    button: 'Save',
+  },
+  pt: {
+    title: 'Criando label',
+    description: 'Descrição',
+    color: 'Cor',
+    errorMessage: decorate('<0>Erro</0>: label não foi criado com <1>sucesso</1>.'),
+    successMessage: decorate('<0>Sucesso</0>: label foi criado com <1>sucesso</1>!'),
+    button: 'Gravar',
+  },
+};
+ *
+const LabelForm = localise(localeLabel)(({ i18n, isError, isSuccess }) => (
+  <div>
+    <h2>{i18n.title}</h2>
+    <form>
+      <div>{i18n.description}</div>
+      <input type="text" />
+      <div>{i18n.color}</div>
+      <input type="text" />
+      {isError && (
+        <div>
+          {i18n.errorMessage(Italic, 'b')} // giving another perspective
+        </div>
+      )}
+      {isSuccess && (
+        <div>
+          {i18n.successMessage(Italic, 'b')} // giving another perspective
+        </div>
+      )}
+      <button type="submit">{i18n.button}</button>
+    </form>
+  </div>
+));
+```
+
+App
+
+```jsx static
+//----------------------------------------------//
+// Initialising the app
+//----------------------------------------------//
+import { I18nProvider } from 'react-i18n-base';
+// If you have the redux store provider wrapping and want to
+// feed information from its state to the provider component,
+// it is possible. Only need to create a mapStateToProps and
+// an action to change the locale through reducer.
+
+const App = () => (
+  <div>
+    <I18nProvider defaultLanguage="en">
+      <Greeting /> {/* it will get the correct i18n object */}
+      <LabelForm isError />
+      <LabelForm isSuccess />
+    </I18nProvider>
+    {/*
+    // The elements below will always display in portuguese, unless
+    // you have internal components change the locale by action or
+    // by the setI18n function provided by I18nProvider.
+    */}
+    <I18nProvider defaultLanguage="en" initialLanguage="pt">
+      <Greeting /> {/* it will get the correct i18n object */}
+      <LabelForm isError />
+      <LabelForm isSuccess />
+    </I18nProvider>
+  </div>
+);
+```
 
 ## Contributions rules
 

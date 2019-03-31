@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+const path = require('path');
+const fs = require('fs');
+
+const currentDirProcess = process.cwd();
 const packagePath = path.resolve(currentDirProcess, 'package.json');
 const pack = JSON.parse(fs.readFileSync(packagePath).toString());
 
@@ -6,7 +10,7 @@ function bump(version) {
   console.log('Bumping to:', version);
   pack.version = version.trim();
   const packageContent = JSON.stringify(pack, null, 2);
-  fs.writeFileSync('package.json', packageContent, 'utf8');
+  fs.writeFileSync('package.json', packageContent + '\n', 'utf8');
 }
 
 const data = [];

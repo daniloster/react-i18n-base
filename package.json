@@ -1,6 +1,6 @@
 {
   "name": "react-i18n-base",
-  "version": "0.0.1",
+  "version": "1.4.1",
   "main": "lib/index.js",
   "license": "MIT",
   "nyc": {
