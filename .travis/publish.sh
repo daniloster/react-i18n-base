@@ -32,12 +32,15 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
 
   confirm_bump() {
     echo "BUMPIN PACKAGE [$PACKAGE_NAME] TO [$NEW_VERSION]"
-    ./get_bump_version.sh $NEW_VERSION
+    echo $NEW_VERSION | ./bump_version.sh
     git add package.json
     export COMMIT_VERSION_MESSAGE="[skip ci] v$NEW_VERSION"
     git commit -m $COMMIT_VERSION_MESSAGE
     LAST_COMMIT_FOR_TAGGING="$(git log --oneline --no-merges -n 1)" | awk '{print $1}'
     git tag -a v$NEW_VERSION $LAST_COMMIT_FOR_TAGGING -m $COMMIT_VERSION_MESSAGE
+
+    npm publish
+
     git push --tags gh-publish master
   }
 
@@ -55,17 +58,17 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
   if [[ $COMMENTS == *"[release=major]"* ]]; then
     echo '** Releasing MAJOR'
     update_docs
-    export NEW_VERSION="$(./get_bump_version.sh major)"
+    export NEW_VERSION="$(echo "major" | ./get_bump_version.sh)"
     confirm_bump
   elif [[ $COMMENTS == *"[release=minor]"* ]]; then
     echo '** Releasing MINOR'
     update_docs
-    export NEW_VERSION="$(./get_bump_version.sh minor)"
+    export NEW_VERSION="$(echo "minor" | ./get_bump_version.sh)"
     confirm_bump
   elif [[ $COMMENTS == *"[release=patch]"* ]]; then
     echo '** Releasing PATCH'
     update_docs
-    export NEW_VERSION="$(./get_bump_version.sh patch)"
+    export NEW_VERSION="$(echo "patch" | ./get_bump_version.sh)"
     confirm_bump
   else
     echo '** NOT RELEASED'
