@@ -41,7 +41,7 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
     git push --tags gh-publish master
   }
 
-  export TYPE_RELEASE="$(git log --no-merges -n 1 --pretty=%B | grep '\[release=' | awk '{print $1}')"
+  # export TYPE_RELEASE="$(git log --no-merges -n 1 --pretty=%B | grep '\[release=' | awk '{print $1}')"
   export LAST_TAG="$(git describe --tags --abbrev=0)"
   export INITIAL_COMMIT="$(git rev-list HEAD | tail -n 1)"
 
