@@ -14,7 +14,9 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
   echo '** Setting github user'
   git config --global user.email "daniloster@gmail.com"
   git config --global user.name "Danilo Castro"
-  git remote add gh-publish "https://${GIT_AUTH_TOKEN}@github.com/daniloster/${PACKAGE_NAME}.git"
+  export GIT_REPO="github.com/daniloster/${PACKAGE_NAME}.git"
+  echo "GIT REPO: $GIT_REPO"
+  git remote add gh-publish "https://${GIT_AUTH_TOKEN}@${GIT_REPO}"
   git fetch gh-publish
   git checkout master
   git rebase gh-publish/master
@@ -27,24 +29,28 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
     yarn run styleguide:build
     git add docs/ packages/
     git commit -m "[skip ci] [update-docs]"
-    git push gh-publish master
   }
 
   confirm_bump() {
-    echo "BUMPIN PACKAGE [$PACKAGE_NAME] TO [$NEW_VERSION]"
+    echo "BUMPING PACKAGE [$PACKAGE_NAME] TO [$NEW_VERSION]"
     echo $NEW_VERSION | ./.travis/bump_version.sh
     git add package.json
-    export COMMIT_VERSION_MESSAGE="[skip ci] v$NEW_VERSION"
+    export COMMIT_VERSION_MESSAGE="[skip ci] v${NEW_VERSION}"
     git commit -m $COMMIT_VERSION_MESSAGE
     LAST_COMMIT_FOR_TAGGING="$(git log --oneline --no-merges -n 1 | awk '{print $1}')"
-    git tag -a v$NEW_VERSION $LAST_COMMIT_FOR_TAGGING -m $COMMIT_VERSION_MESSAGE
+    echo "Adding tag to last commit: $LAST_COMMIT_FOR_TAGGING"
 
-    npm publish
+    git tag -a v${NEW_VERSION} -m $COMMIT_VERSION_MESSAGE
+    export CREATE_TAG=""
+    echo "CREATING TAG: $CREATE_TAG"
+    $($CREATE_TAG)
 
+    # npm publish
+
+    git push gh-publish master
     git push --tags gh-publish master
   }
 
-  # export TYPE_RELEASE="$(git log --no-merges -n 1 --pretty=%B | grep '\[release=' | awk '{print $1}')"
   export LAST_TAG="$(git describe --tags --abbrev=0)"
   export INITIAL_COMMIT="$(git rev-list HEAD | tail -n 1)"
 
@@ -54,7 +60,7 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
       export FROM_VERSION="$LAST_TAG"
   fi
 
-  export COMMENTS="$(git log $FROM_VERSION..HEAD --oneline)"
+  export COMMENTS="$(git log ${FROM_VERSION}..HEAD --oneline)"
   if [[ $COMMENTS == *"[release=major]"* ]]; then
     echo '** Releasing MAJOR'
     update_docs
