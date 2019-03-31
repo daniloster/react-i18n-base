@@ -42,7 +42,7 @@ if [[ $TRAVIS_BRANCH == 'master' ]]; then
 
     git tag -a "v$NEW_VERSION" "$LAST_COMMIT_FOR_TAGGING" -m "$COMMIT_VERSION_MESSAGE"
 
-    # npm publish
+    npm publish
 
     git push gh-publish master
     git push --tags gh-publish master
