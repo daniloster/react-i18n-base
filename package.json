@@ -127,6 +127,7 @@
     "test": "npm run lint && mocha --recursive test -name *.spec.js --require \"./tools/helpers/browser.js\" --colors --reporter mochawesome",
     "test:watch": "npm run test -- --watch",
     "prebuild": "rm -rf lib/ && mkdir -p lib",
+    "validate": "npm run test && npm run coverage && npm run check-coverage",
     "build": "babel src --out-dir lib --copy-files --source-maps",
     "prepublish": "npm run build",
     "lint:fix": "eslint --fix src --config ./.eslintrc.json --ignore-path ./.eslintignore",
