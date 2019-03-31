@@ -20,7 +20,7 @@ const HandleLayout = styled.div`
   display: flex;
   transition: transform 0.3s ease-in 1s;
   transform: scale(${({ isOpen }) => (isOpen ? '-1' : '1')}, 1);
-  background-color: cyan;
+  background-color: aquamarine;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
