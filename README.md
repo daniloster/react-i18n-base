@@ -3,10 +3,11 @@
 Internationalise your app, extending config or factory new internationalised components.
 
 [![NPM](https://img.shields.io/npm/v/react-i18n-base.svg?style=flat-square) ![NPM](https://img.shields.io/npm/dm/react-i18n-base.svg?style=flat-square)](https://www.npmjs.com/package/react-i18n-base)
-[![Build Status](https://img.shields.io/travis/daniloster/react-i18n-base/master.svg?style=flat-square)](https://travis-ci.org/daniloster/react-i18n-base) [![BCH compliance](https://bettercodehub.com/edge/badge/daniloster/react-i18n-base?branch=master)](https://bettercodehub.com/)
+[![Build Status](https://img.shields.io/travis/daniloster/react-i18n-base/master.svg?style=flat-square)](https://travis-ci.org/daniloster/react-i18n-base)
 
 ## Docs
 
+- [Home Page](http://codeinbox.me/react-i18n-base/)
 - [react-i18n-base](https://github.com/daniloster/react-i18n-base/blob/master/README.md)
 - [react-i18n-base/API](https://github.com/daniloster/react-i18n-base/blob/master/API.md)
 
@@ -119,13 +120,10 @@ App
 // Initialising the app
 //----------------------------------------------//
 import { I18nProvider } from 'react-i18n-base';
-// If you have the redux store provider wrapping and want to
-// feed information from its state to the provider component,
-// it is possible. Only need to create a mapStateToProps and
-// an action to change the locale through reducer.
 
 const App = () => (
   <div>
+    {/* If only defaultLanguage is set, then, initialLanguage will be the defaultLanguage value  */}
     <I18nProvider defaultLanguage="en">
       <Greeting /> {/* it will get the correct i18n object */}
       <LabelForm isError />
