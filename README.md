@@ -131,8 +131,7 @@ const App = () => (
     </I18nProvider>
     {/*
     // The elements below will always display in portuguese, unless
-    // you have internal components change the locale by action or
-    // by the setI18n function provided by I18nProvider.
+    // you have internal components change the provider value
     */}
     <I18nProvider defaultLanguage="en" initialLanguage="pt">
       <Greeting /> {/* it will get the correct i18n object */}
