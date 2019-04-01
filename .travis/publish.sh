@@ -7,7 +7,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
   exit 0
 fi
 
-export PACKAGE_NAME="$(cat package.json| grep "\"name\": \"" | awk '{print $2}' | cut -d \" -f 2)"
+export PACKAGE_NAME="$(cat package.json| grep "\"name\": \"" | awk '{print $2}' | cut -d \" -f 2 | head -n 1)"
 
 # Checking if it is a master commit with release attribute
 if [[ $TRAVIS_BRANCH == 'master' ]]; then
