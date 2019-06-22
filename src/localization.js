@@ -207,6 +207,6 @@ export function decorate(text) {
 }
 
 export default {
-  localise,
   decorate,
+  localise,
 };
