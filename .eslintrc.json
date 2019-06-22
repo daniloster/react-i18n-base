@@ -3,13 +3,24 @@
   "extends": ["airbnb", "prettier"],
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": ["error"],
     "complexity": [2, 10],
     "comma-dangle": ["error", "always-multiline"],
     "jsx-a11y/no-static-element-interactions": "off",
+    "max-len": ["error", { "code": 100, "ignoreComments": true }],
+    "prettier/prettier": ["error"],
     "react/jsx-filename-extension": "off",
     "react/prefer-stateless-function": [2, { "ignorePureComponents": true }],
-    "max-len": ["error", { "code": 100, "ignoreComments": true }]
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+      }
+    ],
+    "sort-keys": ["error", "asc", { "caseSensitive": false, "natural": true }],
+    "sort-vars": ["error", { "ignoreCase": true }]
   },
   "parser": "babel-eslint",
   "globals": {
