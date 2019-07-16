@@ -1,9 +1,13 @@
 import React from 'react';
 import Italic from './Italic';
 
-export default ({ i18n, name }) => (
+export default ({ I18nTranslate, name }) => (
   <div>
-    <h2>{i18n.greeting(name, Italic)}</h2>
-    <div>{i18n.message('strong')}</div>
+    <h2>
+      <I18nTranslate modifiers={[name, Italic]} path="greeting" />
+    </h2>
+    <div>
+      <I18nTranslate modifiers={['strong']} path="message" />
+    </div>
   </div>
 );

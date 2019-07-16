@@ -22,8 +22,10 @@ const GreetingLocale = {
     greeting: decorate('<1>Oi</1> <2>{0}</2>! Voce e <2>Incrivel</2>.'),
   },
 };
-const Greeting = localise(GreetingLocale)(({ i18n, name }) => (
-  <div>i18n.greeting(name, 'i', 'strong')</div>
+const Greeting = localise(GreetingLocale)(({ I18nTranslate, name }) => (
+  <div>
+    <I18nTranslate modifiers={[name, 'i', 'strong']} path="greeting" />
+  </div>
 ));
 
 <I18nProvider defaultLocale="en">

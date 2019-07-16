@@ -38,6 +38,12 @@ yarn add react-i18n-base
 
 ### Dev code
 
+The new version of `react-i18n-base` brings a extra feature. So, localised components now will receive a component `I18nTranslate` capable of translate content given `path` and `modifiers`. Thus, the library still retro compatible.
+
+The difference can be seen with the following `Greeting` component.
+
+#### Old way to translate content
+
 Greeting
 
 ```jsx static
@@ -67,6 +73,41 @@ const Greeting = localise(localeGreeting)(({ i18n }) => (
 ));
 ```
 
+#### New way to translate content
+
+Greeting
+
+```jsx static
+//----------------------------------------------//
+// Creating LocalisedComponent
+//----------------------------------------------//
+import { localise, decorate } from 'react-i18n-base';
+
+const Italic = ({ children }) => <i>{children}</i>;
+
+const localeGreeting = {
+  en: {
+    greeting: 'Hi Guest!',
+    message: decorate('You are <0>so</0> <1>Awesome</1>!'),
+  },
+  pt: {
+    greeting: 'Oi Convidado!',
+    message: decorate('<1>Você é</1> <0>tão</0> Fantástico!'),
+  },
+};
+
+const Greeting = localise(localeGreeting)(({ I18nTranslate }) => (
+  <div>
+    <h2>
+      <I18nTranslate path="greeting" />
+    </h2>
+    <div>
+      <I18nTranslate modifiers={['strong', Italic]} path="message" />
+    </div>
+  </div>
+));
+```
+
 LabelForm
 
 ```jsx static
@@ -75,39 +116,51 @@ const localeLabel = {
     title: 'Creating label',
     description: 'Description',
     color: 'Color',
-    errorMessage: decorate('<0>Error</0>: label has not been created successfully.'),
-    successMessage: decorate('<0>Success</0>: label has been created successfully!'),
+    message: {
+      error: decorate('<0>Error</0>: label has not been created successfully.'),
+      success: decorate('<0>Success</0>: label has been created successfully!'),
+    },
     button: 'Save',
   },
   pt: {
     title: 'Criando label',
     description: 'Descrição',
     color: 'Cor',
-    errorMessage: decorate('<0>Erro</0>: label não foi criado com <1>sucesso</1>.'),
-    successMessage: decorate('<0>Sucesso</0>: label foi criado com <1>sucesso</1>!'),
+    message: {
+      error: decorate('<0>Erro</0>: label não foi criado com <1>sucesso</1>.'),
+      success: decorate('<0>Sucesso</0>: label foi criado com <1>sucesso</1>!'),
+    },
     button: 'Gravar',
   },
 };
  *
-const LabelForm = localise(localeLabel)(({ i18n, isError, isSuccess }) => (
+const LabelForm = localise(localeLabel)(({ I18nTranslate, isError, isSuccess }) => (
   <div>
-    <h2>{i18n.title}</h2>
+    <h2>
+      <I18nTranslate path="title" />
+    </h2>
     <form>
-      <div>{i18n.description}</div>
+      <div>
+        <I18nTranslate path="description" />
+      </div>
       <input type="text" />
-      <div>{i18n.color}</div>
+      <div>
+        <I18nTranslate path="color" />
+      </div>
       <input type="text" />
       {isError && (
         <div>
-          {i18n.errorMessage(Italic, 'b')} // giving another perspective
+          <I18nTranslate modifiers={[Italic, 'b']} path="message.error" />
         </div>
       )}
       {isSuccess && (
         <div>
-          {i18n.successMessage(Italic, 'b')} // giving another perspective
+          <I18nTranslate modifiers={[Italic, 'b']} path="message.success" />
         </div>
       )}
-      <button type="submit">{i18n.button}</button>
+      <button type="submit">
+        <I18nTranslate path="button" />
+      </button>
     </form>
   </div>
 ));
@@ -140,6 +193,38 @@ const App = () => (
     </I18nProvider>
   </div>
 );
+```
+
+## Features from version `^3.0.0`
+
+- Added methods to localised components
+  - `extend` and `factory`
+  - **extend**: change globally the localisation json data for a specific component
+  - **factory**: creates new localised component with extension of localisation json data
+
+### Example
+
+```jsx static
+import { localise } from 'react-i18n-base';
+
+const Greeting = ({ name, i18n }) => (
+  <div>
+    {i18n.greeting} {name}!
+  </div>
+);
+const jsonData = {
+  en: { greeting: 'Mr/Mrs' },
+};
+const LocalisedGreeting = localise(jsonData)(Greeting);
+// The code below extend the localisation to all`LocalisedGreeting` instances
+LocalisedGreeting.extend({
+  pt: { greeting: 'Sr/Sra' },
+});
+
+// The code below creates a new component localised based on existing one not affecting the other `LocalisedGreeting` instances
+const NewSupportLocalisedGreeting = LocalisedGreeting.factory({
+  es: { greeting: 'Sr/Sra' },
+});
 ```
 
 ## Contributions rules

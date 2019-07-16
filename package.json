@@ -46,7 +46,9 @@
   "engines": {
     "node": ">6.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mutation-helper": "1.0.0"
+  },
   "peerDependencies": {
     "prop-types": "^15.7.2",
     "react": "^16.8.4",

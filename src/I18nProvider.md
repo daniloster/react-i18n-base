@@ -29,8 +29,12 @@ const GreetingLocale = {
   },
 };
 
-function Greeting({ i18n, name }) {
-  return <div>i18n.greeting(name, 'i', 'strong')</div>;
+function Greeting({ I18nTranslate, name }) {
+  return (
+    <div>
+      <I18nTranslate modifiers={[name, 'i', 'strong']} path="greeting" />
+    </div>
+  );
 }
 
 const GreetingLocalised = localise(GreetingLocale)(Greeting);

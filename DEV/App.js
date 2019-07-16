@@ -1,5 +1,5 @@
 import React from 'react';
-import { localise, I18nProvider } from '../src';
+import { I18nProvider, localise } from '../src';
 import Greeting from '../test/helpers/Greeting';
 import LabelForm from '../test/helpers/LabelForm';
 import LanguagePicker from '../test/helpers/LanguagePicker';

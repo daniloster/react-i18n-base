@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import I18nContext from './I18nContext';
 
-const { useMemo, useState } = React;
+const { useCallback, useMemo, useState } = React;
 
 /**
  * Provider for localization.
@@ -10,11 +10,14 @@ const { useMemo, useState } = React;
 export default function I18nProvider(props) {
   const { children, defaultLanguage, initialLanguage, onChangeLanguage } = props;
   const [language, setLanguage] = useState(initialLanguage || defaultLanguage);
-  const $setLanguage = newLanguage => {
-    setLanguage(newLanguage);
-    onChangeLanguage(newLanguage);
-  };
-  const contextValue = useMemo(() => ({ defaultLanguage, language, setLanguage: $setLanguage }), [
+  const updateLanguage = useCallback(
+    newLanguage => {
+      setLanguage(newLanguage);
+      onChangeLanguage(newLanguage);
+    },
+    [onChangeLanguage]
+  );
+  const contextValue = useMemo(() => ({ defaultLanguage, language, setLanguage: updateLanguage }), [
     language,
   ]);
 

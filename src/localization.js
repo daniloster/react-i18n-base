@@ -1,8 +1,9 @@
 import React from 'react';
 import uuid from 'uuid/v4';
 import I18nContext from './I18nContext';
+import I18nTranslateBase from './I18nTranslateBase';
 
-const { useContext, useMemo } = React;
+const { useCallback, useContext, useMemo } = React;
 
 /**
  * Gets the specific translation according to the locale and defaultLocale
@@ -26,7 +27,7 @@ export function getI18n(defaultLanguage, language, localeData) {
 export function localise(localeData) {
   /**
    * Creates a wrapper class to obtain and pass down the internationalization metadata.
-   * @param {React.Component} Component - it is a react component that will consume the
+   * @param {React.Component} RawComponent - it is a react component that will consume the
    * localization data.
    * @returns {function}
    * @public
@@ -52,8 +53,21 @@ export function localise(localeData) {
         language,
         _localeData,
       ]);
+      const I18nTranslate = useCallback(
+        ({ modifiers, path }) => (
+          <I18nTranslateBase i18n={i18n} modifiers={modifiers} path={path} />
+        ),
+        [i18n]
+      );
 
-      return <RawComponent {...props} i18n={i18n} i18nMetadata={i18nMetadata} />;
+      return (
+        <RawComponent
+          {...props}
+          i18n={i18n}
+          i18nMetadata={i18nMetadata}
+          I18nTranslate={I18nTranslate}
+        />
+      );
     }
 
     LocalisedComponent.extend = newLocaleData => {
@@ -195,10 +209,8 @@ export function decorate(text) {
     const getContent = () =>
       decoratedItems.map((item, index) => {
         const key = `${uid}:item-${index}`;
-        if (typeof item === 'string') {
-          return <span key={key}>{item}</span>;
-        }
-        return item;
+
+        return <React.Fragment key={key}>{item}</React.Fragment>;
       });
     const content = useMemo(getContent, [...args, text]);
 
